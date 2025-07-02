@@ -8,7 +8,7 @@ import React, {useEffect, useRef} from 'react'
 import AdyenCheckout from '@adyen/adyen-web'
 import '@adyen/adyen-web/dist/adyen.css'
 import PropTypes from 'prop-types'
-import {useAdyenExpressCheckout} from '../../../../../adyen-salesforce-pwa'
+import {useAdyenExpressCheckout} from '../../../../adyen-salesforce-pwa/lib/index.js'
 import {getCurrencyValueForApi} from '@salesforce/retail-react-app/app/components/apple-pay-express/utils/parsers'
 import {AdyenShippingMethodsService} from '@salesforce/retail-react-app/app/components/apple-pay-express/utils/shipping-methods'
 import {AdyenShippingAddressService} from '@salesforce/retail-react-app/app/components/apple-pay-express/utils/shipping-address'
@@ -256,19 +256,6 @@ export const ApplePayExpress = () => {
         fetchShippingMethods
     } = useAdyenExpressCheckout()
     const paymentContainer = useRef(null)
-
-console.log("q3 logs - start");
-console.log(adyenEnvironment);
-console.log(adyenPaymentMethods);
-console.log(basket);
-console.log(locale);
-console.log(site);
-console.log(authToken);
-console.log(navigate);
-console.log(shippingMethods);
-console.log(fetchShippingMethods);
-console.log("q3 logs - end");
-
 
     useEffect(() => {
         let isCanceled = false

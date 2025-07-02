@@ -7,7 +7,7 @@
 import React, {useEffect, useState} from 'react'
 
 import {useAccessToken, useCustomerId} from '@salesforce/commerce-sdk-react'
-import {AdyenExpressCheckoutProvider} from '../../../../../adyen-salesforce-pwa'
+import {AdyenExpressCheckoutProvider} from '../../../../adyen-salesforce-pwa/lib/index.js'
 import {ApplePayExpress} from '@salesforce/retail-react-app/app/components/apple-pay-express/index'
 import useMultiSite from '@salesforce/retail-react-app/app/hooks/use-multi-site'
 import useNavigation from '@salesforce/retail-react-app/app/hooks/use-navigation'
