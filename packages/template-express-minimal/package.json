@@ -1,0 +1,35 @@
+{
+  "name": "template-express-minimal",
+  "version": "3.11.0-dev.0",
+  "private": true,
+  "license": "See license in LICENSE",
+  "scripts": {
+    "build": "pwa-kit-dev build",
+    "format": "pwa-kit-dev format \"**/*.{js,jsx}\"",
+    "lint": "pwa-kit-dev lint \"**/*.{js,jsx}\"",
+    "lint:fix": "npm run lint -- --fix",
+    "push": "npm run build && pwa-kit-dev push",
+    "save-credentials": "pwa-kit-dev save-credentials",
+    "start": "pwa-kit-dev start",
+    "tail-logs": "pwa-kit-dev tail-logs",
+    "test": "pwa-kit-dev test"
+  },
+  "devDependencies": {
+    "@salesforce/pwa-kit-dev": "3.11.0-dev.0",
+    "@salesforce/pwa-kit-runtime": "3.11.0-dev.0",
+    "supertest": "^4.0.2"
+  },
+  "mobify": {
+    "ssrEnabled": true,
+    "ssrParameters": {
+      "ssrFunctionNodeVersion": "22.x"
+    },
+    "ssrOnly": [
+      "ssr.js",
+      "node_modules/**/*.*"
+    ],
+    "ssrShared": [
+      "intentionally-does-not-exist"
+    ]
+  }
+}
