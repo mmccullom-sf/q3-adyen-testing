@@ -7,7 +7,7 @@
 import React, {useEffect, useState} from 'react'
 import {AdyenCheckout, AdyenCheckoutProvider} from '../../../../adyen-salesforce-pwa/lib/index.js'
 import {useCurrentBasket} from '@salesforce/retail-react-app/app/hooks/use-current-basket'
-import '@adyen/adyen-salesforce-pwa/dist/app/adyen.css'
+import '../../../../../packages/adyen-salesforce-pwa/dist/app/adyen.css'
 import '@salesforce/retail-react-app/app/styles/adyen-overrides.css'
 import {useAccessToken, useCustomerId} from '@salesforce/commerce-sdk-react'
 import useMultiSite from '@salesforce/retail-react-app/app/hooks/use-multi-site'
