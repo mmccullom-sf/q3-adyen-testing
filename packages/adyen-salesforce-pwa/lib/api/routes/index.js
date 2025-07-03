@@ -18,45 +18,60 @@ function SuccessHandler(req, res) {
 }
 
 function ErrorHandler(err, req, res, next) {
-    Logger.error(err.message, err.cause)
-    return res.status(err.statusCode || 500).json(createErrorResponse(err.message))
+    Logger.error('ErrorHandler', {message: err.message, statusCode: err.statusCode, cause: err.cause})
+    
+    // Ensure we return JSON response for API routes
+    if (req.path && req.path.startsWith('/api/adyen/')) {
+        return res.status(err.statusCode || 500).json(createErrorResponse(err.message))
+    }
+    
+    // For non-API routes, pass to next error handler
+    return next(err)
 }
 
 function registerAdyenEndpoints(app, runtime, overrides) {
+    console.log("registerAdyenEndpoints");
     app.use(bodyParser.json())
     app.set('trust proxy', true)
 
-    const environmentHandler = overrides?.environment || [EnvironmentController, SuccessHandler]
+    const environmentHandler = overrides?.environment || [EnvironmentController, SuccessHandler, ErrorHandler]
     const paymentMethodsHandler = overrides?.paymentMethods || [
         PaymentMethodsController,
-        SuccessHandler
+        SuccessHandler,
+        ErrorHandler
     ]
     const paymentsDetailsHandler = overrides?.paymentsDetails || [
         PaymentsDetailsController,
-        SuccessHandler
+        SuccessHandler,
+        ErrorHandler
     ]
-    const paymentsHandler = overrides?.payments || [PaymentsController, SuccessHandler]
+    const paymentsHandler = overrides?.payments || [PaymentsController, SuccessHandler, ErrorHandler]
     const webhookHandler = overrides?.webhook || [
         authenticate,
         validateHmac,
         parseNotification,
         authorizationWebhookHandler,
-        SuccessHandler
+        SuccessHandler,
+        ErrorHandler
     ]
     const shippingMethodsPostHandler = overrides?.setShippingMethods || [
         ShippingMethodsController.setShippingMethod,
-        SuccessHandler
+        SuccessHandler,
+        ErrorHandler
     ]
     const shippingMethodsGetHandler = overrides?.getShippingMethods || [
         ShippingMethodsController.getShippingMethods,
-        SuccessHandler
+        SuccessHandler,
+        ErrorHandler
     ]
     const shippingAddressHandler = overrides?.shippingAddress || [
         ShippingAddressController,
-        SuccessHandler
+        SuccessHandler,
+        ErrorHandler
     ]
     const appleDomainAssociationHandler = overrides?.appleDomainAssociation || [
-        appleDomainAssociation
+        appleDomainAssociation,
+        ErrorHandler
     ]
 
     app.get(
@@ -83,8 +98,6 @@ function registerAdyenEndpoints(app, runtime, overrides) {
     app.post('/api/adyen/webhook', ...webhookHandler)
     app.post('/api/adyen/shipping-methods', ...shippingMethodsPostHandler)
     app.post('/api/adyen/shipping-address', ...shippingAddressHandler)
-
-    app.use(overrides?.ErrorHandler || ErrorHandler)
 }
 
 export {registerAdyenEndpoints, SuccessHandler, ErrorHandler}

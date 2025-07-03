@@ -59,6 +59,7 @@ export const getAppleButtonConfig = (
     navigate,
     fetchShippingMethods
 ) => {
+    console.log("Step 1");
     let applePayAmount = basket.orderTotal
     const buttonConfig = {
         showPayButton: true,
